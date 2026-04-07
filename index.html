@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structured Webpage</title>
+    <style>
+        /* Tag Selectors */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #0f0e17 0%, #1a1625 50%, #0f0e17 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a0033 0%, #2d0052 50%, #1a0033 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.4), inset 0 1px 0 rgba(255, 215, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            border-bottom: 3px solid #ffd700;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            animation: moveBackground 20s linear infinite;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        nav {
+            background: linear-gradient(90deg, rgba(26, 0, 51, 0.95) 0%, rgba(45, 0, 82, 0.95) 50%, rgba(26, 0, 51, 0.95) 100%);
+            padding: 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(138, 43, 226, 0.3), 0 0 20px rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-bottom: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        nav a {
+            color: #00ffff;
+            text-decoration: none;
+            padding: 16px 28px;
+            display: inline-block;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            margin: 8px 4px;
+            font-weight: 600;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 13px;
+            border: 1px solid transparent;
+        }
+
+        nav a::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.2), rgba(255, 215, 0, 0.2));
+            border-radius: 8px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, #00ffff, #ffd700);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s ease;
+        }
+
+        nav a:hover {
+            color: #ffd700;
+            border: 1px solid rgba(0, 255, 255, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4), inset 0 0 10px rgba(0, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        nav a:hover::before {
+            opacity: 1;
+        }
+
+        nav a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        section {
+            display: flex;
+            max-width: 1200px;
+            margin: 30px auto;
+            gap: 20px;
+            padding: 0 20px;
+        }
+
+        article {
+            flex: 3;
+            background: linear-gradient(135deg, rgba(30, 20, 50, 0.8) 0%, rgba(40, 25, 65, 0.8) 100%);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(138, 43, 226, 0.2), inset 0 1px 0 rgba(0, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        article::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            border-radius: 12px 12px 0 0;
+        }
+
+        article:hover {
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6), 0 0 50px rgba(138, 43, 226, 0.35), inset 0 1px 0 rgba(0, 255, 255, 0.2);
+            transform: translateY(-8px);
+            border-color: rgba(0, 255, 255, 0.4);
+        }
+
+        article h2 {
+            color: #00ffff;
+            margin-bottom: 20px;
+            border-bottom: 3px solid;
+            border-image: linear-gradient(90deg, #00ffff, #ffd700) 1;
+            padding-bottom: 15px;
+            font-size: 32px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 800;
+        }
+
+        article h3 {
+            color: #00ffff;
+            margin-top: 35px;
+            margin-bottom: 18px;
+            font-size: 22px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        article h4 {
+            color: #ffd700;
+            margin-top: 30px;
+            margin-bottom: 18px;
+            font-size: 16px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        article p {
+            color: #d0d0d0;
+            margin-bottom: 18px;
+            text-align: justify;
+            line-height: 1.9;
+            font-size: 15px;
+        }
+
+        aside {
+            flex: 1;
+            background: linear-gradient(135deg, rgba(30, 20, 50, 0.8) 0%, rgba(40, 25, 65, 0.8) 100%);
+            padding: 40px;
+            border-radius: 12px;
+            border-left: 4px solid #ffd700;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(138, 43, 226, 0.2), inset 0 1px 0 rgba(0, 255, 255, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+        }
+
+        aside::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #ffd700, #00ffff);
+            border-radius: 12px 12px 0 0;
+        }
+
+        aside:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.6), 0 0 40px rgba(0, 255, 255, 0.3);
+            border-color: rgba(0, 255, 255, 0.3);
+        }
+
+        aside h3 {
+            color: #00ffff;
+            margin-bottom: 20px;
+            font-size: 17px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        aside ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        aside li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(0, 255, 255, 0.15);
+            color: #b0b0b0;
+            transition: all 0.3s ease;
+        }
+
+        aside li:last-child {
+            border-bottom: none;
+        }
+
+        aside li a {
+            color: #00ffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            position: relative;
+        }
+
+        aside li a::after {
+            content: '▸';
+            position: absolute;
+            left: -15px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: #ffd700;
+        }
+
+        aside li a:hover {
+            color: #ffd700;
+            transform: translateX(8px);
+        }
+
+        aside li a:hover::after {
+            opacity: 1;
+        }
+
+        footer {
+            background: linear-gradient(135deg, #1a0033 0%, #2d0052 50%, #1a0033 100%);
+            color: #00ffff;
+            text-align: center;
+            padding: 70px 20px;
+            margin-top: 100px;
+            font-size: 14px;
+            box-shadow: 0 -10px 40px rgba(138, 43, 226, 0.3), inset 0 1px 0 rgba(0, 255, 255, 0.2);
+            position: relative;
+            border-top: 2px solid rgba(0, 255, 255, 0.3);
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ffd700, transparent);
+        }
+
+        footer p {
+            margin: 10px 0;
+            opacity: 0.9;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+        }
+
+        /* Class Selectors */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #00ffff, #ffd700);
+            padding: 4px 10px;
+            border-radius: 6px;
+            color: #1a0033;
+            font-weight: 700;
+            box-shadow: 0 4px 15px rgba(0, 255, 255, 0.4);
+            display: inline-block;
+        }
+
+        .intro-text {
+            font-size: 18px;
+            font-weight: 300;
+            color: #b0b0b0;
+            font-style: italic;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+
+        .feature-list {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 30px 0;
+            border-left: 5px solid #ffd700;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+        }
+
+        .feature-list li {
+            margin: 18px 0;
+            margin-left: 35px;
+            color: #d0d0d0;
+            font-weight: 500;
+            line-height: 1.8;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .feature-list li:before {
+            content: '▸';
+            color: #00ffff;
+            font-weight: bold;
+            font-size: 20px;
+            position: absolute;
+            left: -25px;
+        }
+
+        .feature-list li:hover {
+            padding-left: 10px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        /* ID Selector */
+        #main-title {
+            font-size: 56px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8), 0 0 40px rgba(138, 43, 226, 0.6);
+            animation: fadeInDown 1s ease;
+            position: relative;
+            z-index: 1;
+            color: #00ffff;
+            text-transform: uppercase;
+        }
+
+        #subtitle {
+            font-size: 22px;
+            font-weight: 300;
+            margin-top: 15px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease;
+            position: relative;
+            z-index: 1;
+            color: #ffd700;
+            letter-spacing: 2px;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .js-section {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.05) 0%, rgba(255, 215, 0, 0.05) 100%);
+            padding: 40px;
+            border-radius: 12px;
+            margin: 35px 0;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+            box-shadow: 0 10px 35px rgba(138, 43, 226, 0.2), inset 0 1px 0 rgba(0, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .js-section::before {
+            content: '< / >';
+            position: absolute;
+            top: 15px;
+            right: 25px;
+            font-size: 24px;
+            color: #00ffff;
+            opacity: 0.2;
+            font-weight: bold;
+        }
+
+        .js-section::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00ffff, transparent);
+            border-radius: 12px 12px 0 0;
+        }
+
+        .student-info {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.1) 0%, rgba(255, 215, 0, 0.05) 100%);
+            padding: 28px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border-left: 5px solid #00ffff;
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.2);
+            animation: slideIn 0.6s ease;
+            border: 1px solid rgba(0, 255, 255, 0.25);
+        }
+
+        .student-info strong {
+            color: #ffd700;
+            font-weight: 700;
+        }
+
+        .student-info br + strong {
+            color: #00ffff;
+        }
+
+        .button-group {
+            margin: 20px 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        button {
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 50%, #ffd700 100%);
+            color: #1a0033;
+            border: none;
+            padding: 15px 35px;
+            margin: 0;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 14px;
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.4), 0 0 15px rgba(0, 255, 255, 0.2);
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.15);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        button:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 15px 50px rgba(255, 215, 0, 0.6), 0 0 30px rgba(0, 255, 255, 0.4);
+            color: #2d0052;
+        }
+
+        button:active {
+            transform: translateY(-2px);
+        }
+
+        .input-section {
+            margin: 20px 0;
+        }
+
+        .input-section label {
+            display: block;
+            margin-bottom: 12px;
+            color: #00ffff;
+            font-weight: 700;
+            font-size: 15px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        input[type="text"] {
+            padding: 15px 18px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 400px;
+            font-size: 15px;
+            transition: all 0.35s ease;
+            background-color: rgba(30, 20, 50, 0.6);
+            color: #d0d0d0;
+        }
+
+        input[type="text"]::placeholder {
+            color: #888;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 0 4px rgba(0, 255, 255, 0.2), 0 0 20px rgba(0, 255, 255, 0.3);
+            background-color: rgba(30, 20, 50, 0.9);
+            color: #00ffff;
+        }
+
+        input[type="text"]:hover {
+            border-color: #00ffff;
+        }
+
+        #displayOutput {
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.15) 0%, rgba(255, 215, 0, 0.08) 100%);
+            padding: 22px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 5px solid #ffd700;
+            color: #ffd700;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(255, 215, 0, 0.15);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        #displayOutput:hover {
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.25);
+        }
+
+        #dynamicContent {
+            background: linear-gradient(135deg, rgba(0, 255, 255, 0.12) 0%, rgba(0, 255, 255, 0.05) 100%);
+            padding: 22px;
+            border-radius: 10px;
+            margin-top: 15px;
+            border-left: 5px solid #00ffff;
+            color: #00ffff;
+            font-weight: 500;
+            box-shadow: 0 8px 20px rgba(0, 255, 255, 0.15);
+            transition: all 0.3s ease;
+            line-height: 1.8;
+            border: 1px solid rgba(0, 255, 255, 0.2);
+        }
+
+        #dynamicContent:hover {
+            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.25);
+        }
+
+        @media (max-width: 768px) {
+            section {
+                flex-direction: column;
+            }
+
+            article, aside {
+                flex: 1;
+            }
+
+            #main-title {
+                font-size: 36px;
+            }
+
+            button {
+                padding: 12px 24px;
+                font-size: 13px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header>
+        <h1 id="main-title">Mobile Legends: Bang Bang</h1>
+        <p id="subtitle">The Ultimate Mobile MOBA Experience</p>
+    </header>
+
+   <!-- Navigation Section -->
+<nav>
+    <a href="#home">Home</a>
+    <a href="#about">About ML</a>
+    <a href="#heroes">Heroes</a>
+    <a href="#gameplay">Gameplay</a>
+</nav>
+
+<!-- Main Content Section -->
+<section>
+    <!-- Article Section -->
+    <article>
+        <h2>About Mobile Legends: Bang Bang</h2>
+        <p class="intro-text">Mobile Legends: Bang Bang is a phenomenal 5v5 MOBA (Multiplayer Online Battle Arena) game designed exclusively for handheld devices.</p>
+        
+        <p>
+            Mobile Legends: Bang Bang is the most popular mobile MOBA in the world, captivating over 100 million players globally. The game combines strategic depth with fast-paced action, featuring <span class="highlight">diverse heroes</span>, <span class="highlight">dynamic maps</span>, <span class="highlight">ranked matches</span>, and <span class="highlight">esports tournaments</span>. Whether you're a casual player or aspiring professional, Mobile Legends offers an immersive competitive experience.
+        </p>
+
+        <h3>Why Play Mobile Legends?</h3>
+        <ul class="feature-list">
+            <li>Diverse Hero Collection - Choose from 100+ unique characters with distinct abilities</li>
+            <li>Strategic Teamwork - Coordinate with allies to conquer the enemy base</li>
+            <li>Ranked Matchmaking - Climb the ranks from Warrior to Mythical Glory</li>
+            <li>Competitive Esports - Participate in tournaments and professional leagues</li>
+            <li>Regular Updates - New heroes, skins, and balance changes keep the game fresh</li>
+        </ul>
+
+        <p>
+            The game mechanics revolve around three lanes, jungle farming, tower defense, and epic team battles. Success requires mastering hero mechanics, map awareness, positioning, and team coordination. From beginners to professional players, Mobile Legends provides endless challenges and entertainment.
+        </p>
+
+        <h3>Game Features</h3>
+        <p>
+            Mobile Legends offers multiple game modes including Classic Battles for casual play, Ranked Matches for competitive climbing, and Special Events for unique challenges. The ever-expanding roster of heroes ensures every player finds a champion that matches their playstyle, whether you prefer damage dealers, support heroes, tanks, or assassins.
+        </p>
+
+        <!-- JavaScript Section -->
+        <h3>Interactive JavaScript Features</h3>
+        <div class="js-section">
+            <!-- A. Variables and Output - Display name and course -->
+            <h4>A. Player Information (Variables & Output)</h4>
+            <div id="studentDisplay" class="student-info">
+                <!-- Display will be populated by JavaScript -->
+            </div>
+
+            <!-- B. Button Function - Show alert on click -->
+            <h4 style="margin-top: 20px;">B. Button Function (Alert on Click)</h4>
+            <div class="button-group">
+                <button id="alertBtn">Click Me for Alert!</button>
+                <button id="toggleBtn">Toggle Content</button>
+            </div>
+
+            <!-- C. User Input - Display input dynamically -->
+            <h4 style="margin-top: 20px;">C. User Input (Dynamic Display)</h4>
+            <div class="input-section">
+                <label for="userInput">Enter your favorite hero name:</label><br><br>
+                <input type="text" id="userInput" placeholder="Type something...">
+                <div id="displayOutput">Your input will appear here...</div>
+            </div>
+
+            <!-- D. Event Handling - Change content dynamically -->
+            <h4 style="margin-top: 20px;">D. Event Handling (Dynamic Content)</h4>
+            <div id="dynamicContent">
+                Click the buttons above to see dynamic content changes!
+            </div>
+        </div>
+    </article>
+
+    <!-- Aside Section -->
+    <aside>
+        <h3>Hero Roles</h3>
+        <ul>
+            <li><a href="#tank">Tank Heroes</a></li>
+            <li><a href="#fighter">Fighter Heroes</a></li>
+            <li><a href="#assassin">Assassin Heroes</a></li>
+            <li><a href="#mage">Mage Heroes</a></li>
+            <li><a href="#marksman">Marksman Heroes</a></li>
+        </ul>
+
+        <h3 style="margin-top: 25px;">Game Resources</h3>
+        <ul>
+            <li><a href="#official">Official Website</a></li>
+            <li><a href="#guides">Strategy Guides</a></li>
+            <li><a href="#esports">Esports Info</a></li>
+            <li><a href="#community">Community Forum</a></li>
+        </ul>
+    </aside>
+</section>
+
+<!-- Footer Section -->
+<footer>
+    <p>&copy; 2026 Mobile Legends Community. All rights reserved.</p>
+    <p>Dominate the Arena - Victory Awaits!</p>
+</footer>
+
+<script>
+    // A. VARIABLES AND OUTPUT - Display name and course
+    // Variables to store student information
+    const playerName = "Chynn";
+    const mainGame = "Mobile Legends: Bang Bang";
+    const favoriteRole = "Mid Lane (Mage)";
+
+    // Function to display student information
+    function displayStudentInfo() {
+        const studentDisplay = document.getElementById('studentDisplay');
+        studentDisplay.innerHTML = `
+            <strong>Player Name:</strong> ${playerName}<br>
+            <strong>Game:</strong> ${mainGame}<br>
+            <strong>Favorite Role:</strong> ${favoriteRole}
+        `;
+    }
+
+    // B. BUTTON FUNCTION - Show alert on click
+    const alertBtn = document.getElementById('alertBtn');
+    alertBtn.addEventListener('click', function() {
+        alert(`Welcome ${playerName}! Join the battle in ${mainGame} and achieve glory in ${favoriteRole}!`);
+    });
+
+    // C. USER INPUT - Display input dynamically
+    const userInput = document.getElementById('userInput');
+    const displayOutput = document.getElementById('displayOutput');
+
+    userInput.addEventListener('input', function(event) {
+        const inputValue = event.target.value;
+        
+        if (inputValue === '') {
+            displayOutput.textContent = 'Your input will appear here...';
+            displayOutput.style.opacity = '0.6';
+        } else {
+            displayOutput.innerHTML = `<strong>You typed:</strong> "${inputValue}"`;
+            displayOutput.style.opacity = '1';
+        }
+    });
+
+    // D. EVENT HANDLING - Change content dynamically
+    let isToggled = false;
+    const toggleBtn = document.getElementById('toggleBtn');
+    const dynamicContent = document.getElementById('dynamicContent');
+
+    toggleBtn.addEventListener('click', function() {
+        isToggled = !isToggled;
+        
+        if (isToggled) {
+            dynamicContent.innerHTML = `
+                <strong>⚔️ Player Stats Updated!</strong><br>
+                Player: ${playerName} | Game: ${mainGame}<br>
+                Role: ${favoriteRole}<br>
+                Status: Ready to Dominate the Arena!<br>
+                <em>Click again to hide stats.</em>
+            `;
+            dynamicContent.style.backgroundColor = '#d4edda';
+            dynamicContent.style.borderLeftColor = '#28a745';
+            dynamicContent.style.color = '#155724';
+        } else {
+            dynamicContent.innerHTML = 'Click the buttons above to see dynamic content changes!';
+            dynamicContent.style.backgroundColor = '#cffafe';
+            dynamicContent.style.borderLeftColor = '#06b6d4';
+            dynamicContent.style.color = '#0e7490';
+        }
+    });
+
+    // Initialize student information on page load
+    window.addEventListener('DOMContentLoaded', function() {
+        displayStudentInfo();
+    });
+</script>
+
+</body>
+</html>
